@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Top 10 Largest Cities on Earth</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <style>
+    #map {
+      height: 400px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Top 10 Largest Cities on Earth</h1>
+  <div id="map"></div>
+
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script>
+    var map = L.map('map').setView([0, 0], 2); // Center the map at [0, 0] with zoom level 2
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    // Define an array of the top 10 largest cities with their coordinates
+    var cities = [
+      { name: 'Tokyo', coordinates: [35.6895, 139.6917] },
+      { name: 'Delhi', coordinates: [28.7041, 77.1025] },
+      { name: 'Shanghai', coordinates: [31.2304, 121.4737] },
+      { name: 'Sao Paulo', coordinates: [-23.5505, -46.6333] },
+      { name: 'Mumbai', coordinates: [19.0760, 72.8777] },
+      { name: 'Mexico City', coordinates: [19.4326, -99.1332] },
+      { name: 'Beijing', coordinates: [39.9042, 116.4074] },
+      { name: 'Osaka', coordinates: [34.6937, 135.5023] },
+      { name: 'Cairo', coordinates: [30.0444, 31.2357] },
+      { name: 'Dhaka', coordinates: [23.8103, 90.4125] }
+    ];
+
+    // Add markers for each city to the map
+    cities.forEach(function(city) {
+      L.marker(city.coordinates).addTo(map).bindPopup(city.name);
+    });
+  </script>
+</body>
+</html>
