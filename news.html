@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>World City Explorer</title>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.css"/>
+    <style>
+        #map {
+            height: 500px;
+            width: 70%;
+            float: left;
+        }
+        #sidebar {
+            height: 500px;
+            width: 30%;
+            overflow-y: auto;
+            padding: 10px;
+        }
+        .news-item {
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <div id="sidebar"></div>
+
+    <script>
+        var cities = {
+            "New York": {
+                "location": [40.7128, -74.0060],
+                "details": {
+                    "Population": "8.4 million",
+                    "Famous for": "Statue of Liberty, Wall Street, Broadway"
+                },
+                "news": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vel aliquet justo."
+            },
+            "Tokyo": {
+                "location": [35.6895, 139.6917],
+                "details": {
+                    "Population": "13.9 million",
+                    "Famous for": "Tokyo Tower, Imperial Palace, Shibuya Crossing"
+                },
+                "news": "ashers news story"
+            },
+            // Add more cities and news stories here
+        };
+
+        var map = L.map('map').setView([20, 0], 2);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        for (var city in cities) {
+            var marker = L.marker(cities[city].location).addTo(map);
+            marker.bindPopup(generatePopup(city, cities[city].details, cities[city].news));
+        }
+
+        function generatePopup(city, details, news) {
+            var popupContent = "<b>" + city + "</b><br>";
+            popupContent += "<ul>";
+            for (var key in details) {
+                popupContent += "<li><b>" + key + ":</b> " + details[key] + "</li>";
+            }
+            popupContent += "</ul>";
+            popupContent += "<p>" + news + "</p>";
+            return popupContent;
+        }
+
+        function highlightCity(city) {
+            var latlng = cities[city].location;
+            map.setView(latlng, 10);
+        }
+
+        function populateSidebar() {
+            var sidebar = document.getElementById("sidebar");
+            sidebar.innerHTML = "<h2>Latest News</h2>";
+            for (var city in cities) {
+                sidebar.innerHTML += "<div class='news-item' onclick='highlightCity(\"" + city + "\")'>" + cities[city].news + "</div>";
+            }
+        }
+
+        populateSidebar();
+    </script>
+</body>
+</html>
